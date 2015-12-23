@@ -1,6 +1,6 @@
 <?php
 
-namespace MetzWeb\Instagram;
+require_once "InstagramException.php";
 
 /**
  * Instagram API class
@@ -71,7 +71,7 @@ class Instagram
      *
      * @var string[]
      */
-    private $_scopes = array('basic', 'likes', 'comments', 'relationships');
+    private $_scopes = array('basic', 'public_content', 'follower_list', 'likes', 'comments', 'relationships');
 
     /**
      * Available actions.
@@ -170,20 +170,20 @@ class Instagram
     }
 
     /**
-     * Get user activity feed.
+     * Get user activity recent media.
      *
      * @param int $limit Limit of returned results
      *
      * @return mixed
      */
-    public function getUserFeed($limit = 0)
+    public function getUserRecent($limit = 0)
     {
         $params = array();
         if ($limit > 0) {
             $params['count'] = $limit;
         }
 
-        return $this->_makeCall('users/self/feed', true, $params);
+        return $this->_makeCall('users/self/media/recent', true, $params);
     }
 
     /**
