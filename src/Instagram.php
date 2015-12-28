@@ -166,7 +166,9 @@ class Instagram
             $auth = true;
         }
 
-        return $this->_makeCall('users/' . $id, $auth);
+        $request = $this->_makeCall('users/' . $id, $auth);
+        if ( 200 != $request->meta->code )  { throw new InstagramException($request->meta->error_type .": ".$request->meta->error_message, $request->meta->code); }
+        else                                { return $request; }
     }
 
     /**
